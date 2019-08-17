@@ -166,6 +166,9 @@
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="D:/server/nodejs/node" />
   </component>
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+  </component>
   <component name="libraryTable">
     <library name="Maven: cglib:cglib-nodep:3.2.5">
       <CLASSES>
