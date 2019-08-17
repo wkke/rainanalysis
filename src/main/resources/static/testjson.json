@@ -1,0 +1,25 @@
+{
+  "type": "Feature",
+  "properties": {
+    "title": "Kremlin"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [102.54, 30.05],
+        [104.53, 30.05],
+        [104.53, 31.26],
+        [102.54, 31.26],
+        [102.54, 30.05]
+      ]
+    ]
+  },
+  "style": {
+    "color": "#CC0000",
+    "weight": 2,
+    "fill-opacity": 0.6,
+    "opacity": 1,
+    "dashArray": "3, 5"
+  }
+}

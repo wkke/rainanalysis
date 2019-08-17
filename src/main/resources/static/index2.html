@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        html{height:auto;}
+        body{height:auto;margin:0; padding:0;}
+        #map_container{ width:800px;height:500px;}
+    </style>
+    <title>iMap 地图JavaScript API 2.4+ 示例:Hello World</title>
+    <link rel="Stylesheet" type="text/css"
+          href="http://www.scgis.net.cn/imap/jsapi/v27/js/dojo/dijit/themes/soria/soria.css" />
+    <script type="text/javascript" src="http://www.scgis.net.cn/imap/jsapi/v27/"></script>
+    <script type="text/javascript">
+        function init() {
+            // 把token字符串替换为你申请的token字符串。
+            var token = "-pxvYt1zsn3NWaFKnNvWv1iVoRbXYzGEZvyzDfmjsECvIUR3TwTN364G0ItDlNNr";
+            // 切片服务地址，记得一定要在后面加'/mapserver'
+            var url = "http://www.scgis.net.cn/imap/iMapServer/DefaultRest/services/SCTileMap/mapserver";
+            // 创建一个地图对象，设置其容器为map_container
+            var map = new esri.Map("map_container");
+            // 创建一个切片图层对象，把切片的服务地址给它
+            var layer = new scgc.layers.SCGISTiledMapServiceLayer(url);
+            // token过期处理
+            dojo.connect(layer, "onTokenExpired", function(json) {
+                layer.setToken(token);
+            });
+            // 向地图容器中添加切片图层对象
+            map.addLayer(layer);
+
+
+
+            esri.request("calc2").then(function(data,io){
+              console.log(data)
+            }, function(err,io){
+                // handle an error condition
+            });
+
+
+        }
+        // 页面装载时候调用init函数
+        dojo.addOnLoad(init);
+    </script>
+</head>
+<body>
+<div id="map_container"></div>
+</body>
+</html>
