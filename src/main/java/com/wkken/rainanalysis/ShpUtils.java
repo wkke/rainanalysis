@@ -43,16 +43,48 @@ public static SimpleFeatureCollection  readShp(String path , Filter filter){
     return null ;
 }
 
+public static List<SimpleFeature> getRegionList(String path)
+{
+     List<SimpleFeature> geolist=new ArrayList<>();
+    File file = new File(path);
+    file.setReadOnly();
+    FileDataStore store=null;
+    SimpleFeatureIterator iters =null;
+    SimpleFeatureSource featureSource = null;
+    try {
+        store = FileDataStoreFinder.getDataStore(file);
+        ((ShapefileDataStore) store).setCharset(Charset.forName("UTF-8"));
+        featureSource = store.getFeatureSource();
+
+
+         iters = featureSource.getFeatures().features();
+        while(iters.hasNext()) {
+            geolist.add(iters.next());
+        }
+
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }finally {
+        iters.close();
+        store.dispose();
+    }
+
+    return geolist;
+}
+
 public static SimpleFeatureSource readStoreByShp(String path ){
 
     File file = new File(path);
-
+    file.setReadOnly();
     FileDataStore store;
     SimpleFeatureSource featureSource = null;
     try {
         store = FileDataStoreFinder.getDataStore(file);
         ((ShapefileDataStore) store).setCharset(Charset.forName("UTF-8"));
         featureSource = store.getFeatureSource();
+
+
     } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();

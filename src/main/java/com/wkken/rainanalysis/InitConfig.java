@@ -1,6 +1,7 @@
 package com.wkken.rainanalysis;
 
 import cn.hutool.core.lang.Console;
+import com.jfinal.core.JFinal;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -19,6 +20,7 @@ private int hours=2;
 
 @Override
 public void afterPropertiesSet() throws Exception {
+
     ResultHolder.INSTANCE.setDebug(isDebug);
     ResultHolder.INSTANCE.setHours(hours);
 }

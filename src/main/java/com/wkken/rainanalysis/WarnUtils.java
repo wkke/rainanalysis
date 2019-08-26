@@ -1,6 +1,5 @@
 package com.wkken.rainanalysis;
 
-import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
@@ -29,6 +28,8 @@ import ucar.nc2.dt.GridDatatype;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -46,9 +47,8 @@ private Table<Double, Double, Double> rainGridTable = HashBasedTable.create();
 
 
 
-private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-private SimpleDateFormat df2 = new SimpleDateFormat("yyyyMM");
 
 private Map<String, Object> StyleMap = ImmutableMap.<String, Object>builder()
 
@@ -101,12 +101,13 @@ private double maxRainFall = 0.0;
 
 private String errmessage = "";
 
+    private  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 public static void main(String[] args) throws Exception {
     StopWatch sw = new StopWatch();
 
     sw.start("开始计算");
     WarnUtils wu = new WarnUtils();
- wu.updateResult();
     sw.stop();
     System.out.println(sw.prettyPrint());
     System.out.println(sw.getTotalTimeMillis());
@@ -120,28 +121,11 @@ public static void main(String[] args) throws Exception {
    // System.out.println( JSON.toJSONString(wu.DoAnalyResult())); ;
 }
 
-//@Scheduled(fixedRate=1000*60*30)
-public void updateResult() {
 
-        log.error("检查文件并处理结果");
-        long checked=checkfileDate();
-
-        if (checked==0)
-        {
-            log.error("未发现预报文件");
-        }else {
-            if (checked > ResultHolder.INSTANCE.lastDate() || ResultHolder.INSTANCE.lastDate() == 0) {
-                log.error("监测到新文件，开始处理");
-                ResultHolder.INSTANCE.updateResult(JSON.toJSONString(DoAnalyResult()));
-            }
-            log.error("结果生成完毕");
-        }
-
-}
 
 
 @Scheduled(fixedRate=1000*60*30)
-public void updateResult2() {
+public void updateResult2() throws ParseException {
 
     log.error("检查文件并处理结果");
     List<File> files=checkFiles();
@@ -160,17 +144,17 @@ GridUtils gu=new GridUtils();
                 if (needCalc(grbfile))
                 {
                     forecastdata= gu.analysis(grbfile);
-                    FileUtil.writeString(    JSON.toJSONString(forecastdata),FileUtil.touch("D:\\test\123.json"),"UTF-8");
+
 
                     String updatesql="UPDATE [WeatherWarn] SET [TM] = ? , [UpdateDate] = ? ,[GeoData] = ? WHERE TM =? and  UpdateDate <?";
-                    Db.update(updatesql,forecastdata.get("forecast_stm"),
-                            forecastdata.get("updatetime"),
+                    Db.update(updatesql,new Timestamp(df.parse(forecastdata.get("forecast_stm").toString()).getTime())  ,
+                            new Timestamp(df.parse(forecastdata.get("updatetime").toString()).getTime()),
                             JSON.toJSONString(forecastdata),
-                            forecastdata.get("forecast_stm"),
-                            forecastdata.get("updatetime")
+                            new Timestamp(df.parse(forecastdata.get("forecast_stm").toString()).getTime()),
+                            new Timestamp(df.parse(forecastdata.get("updatetime").toString()).getTime())
                     );
 
-                    String insertsql="if not exists (select 1 from WeatherWarn where  TM =? and  UpdateDate =?)\n" +
+                    String insertsql="if not exists (select 1 from WeatherWarn where  TM =? )\n" +
                                     "INSERT INTO [dbo].[WeatherWarn]\n" +
                                     "           ([TM]\n" +
                                     "           ,[UpdateDate]\n" +
@@ -179,10 +163,10 @@ GridUtils gu=new GridUtils();
                                     "           (?\n" +
                                     "           ,?\n" +
                                     "           ,?)";
-                    Db.update(insertsql,forecastdata.get("forecast_stm"),
-                            forecastdata.get("updatetime"),
-                            forecastdata.get("forecast_stm"),
-                            forecastdata.get("updatetime"),
+                    Db.update(insertsql,  new Timestamp(df.parse(forecastdata.get("forecast_stm").toString()).getTime()),
+
+                            new Timestamp(df.parse(forecastdata.get("forecast_stm").toString()).getTime()),
+                            new Timestamp(df.parse(forecastdata.get("updatetime").toString()).getTime()) ,
                             JSON.toJSONString(forecastdata)
                     );
 
@@ -198,94 +182,24 @@ GridUtils gu=new GridUtils();
 
         }
 
-        log.error("结果生成完毕");
+        log.error("--process over---");
     }
 
 }
 
-private  boolean needCalc(File f) throws IOException {
+private  boolean needCalc(File f) throws IOException, ParseException {
 
- return  0==  Db.queryInt("select count(1) from WeatherWarn where  TM =? and  UpdateDate =?", GridUtils.checkForeCastDate(f),   df.format(new Date( f.lastModified()))  );
+    try {
+        return  0==  Db.queryInt("select count(1) from WeatherWarn where  TM =? and  UpdateDate =?",    new Timestamp(df.parse(GridUtils.checkForeCastDate(f)).getTime()),     new Timestamp(f.lastModified())  );
+    } catch (ParseException e) {
+        e.printStackTrace();
+        return true;
+    }
 
 }
 
 
-public long checkfileDate() {
 
-    log.error("预报文件目录:"+GribFileDir);
-    long lastFileTime=0;
-    File filedir = new File(GribFileDir);
-    if (filedir.exists() && filedir.isDirectory()) {
-        List<File> fs = new ArrayList<>();
-
-
-        //两次获取 仅取修改时间距当前时间3小时以内的
-        Collections.addAll(fs, filedir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) { //仅监视.GRB2格式文件
-
-                if ((new Date().getTime()-  file.lastModified())>(1000*60*3) &&(s.toLowerCase().endsWith(".grb2")))
-                {
-                    return true;
-                }
-                return false;
-            }
-        }));
-
-
-
-        Collections.addAll(fs, filedir.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String s) { //仅监视.GRB2格式文件
-
-                //仅取当月文件
-
-                if ((s.toLowerCase().endsWith(".grb2"))&&(s.indexOf(df2.format(new Date())  )>0)  ) {
-                    return true;
-                }
-                return false;
-            }
-        }));
-        fs = new Ordering<File>() {
-            @Override
-            public int compare(File left, File right) {
-                if (left.lastModified() > right.lastModified()) {
-                    return -1;
-                }
-                if (left.lastModified() == right.lastModified()) {
-                    return 0;
-                }
-                if (left.lastModified() < right.lastModified()) {
-                    return 1;
-                }
-                return 0;
-            }
-        }.immutableSortedCopy(fs);
-
-        log.error("有效预报文件数量:"+fs.size());
-        if (fs.size()==0)
-        {
-            log.error("未监测到文件，目录为:"+GribFileDir);
-        }
-
-        if (fs.size()>0){
-
-            log.error("监测到新文件:"+fs.get(0).getAbsolutePath());
-            GribFilePath=fs.get(0).getAbsolutePath();
-            lastFileTime=fs.get(0).lastModified();
-        }
-        //删除旧文件 仅保留最后一条
-     /*   if (fs.size()>1) {
-            for (int i = 1; i < fs.size(); i++) {
-                fs.get(i).delete();
-            }
-        }*/
-    }
-    else{
-        log.error("预报文件目录不存在");
-    }
-    return  lastFileTime;
-}
 
 
 public  List<File> checkFiles() {
@@ -324,7 +238,7 @@ public  List<File> checkFiles() {
 
         log.error("---------------有效预报文件数量:" + fs.size());
         if (fs.size() == 0) {
-            log.error("未监测到文件，目录为:" + GribFileDir);
+
         }
 
     }
@@ -381,7 +295,7 @@ private List<Map<String, Object>> calcWarn() throws IOException, InterruptedExce
     double lat = 0;
     double lgt = 0;
 
-    log.error("预警分区读取完毕，开始分组");
+
 
     maxRainFall=0.0;
     SimpleFeature feature;
@@ -470,7 +384,7 @@ private List<Map<String, Object>> calcWarn() throws IOException, InterruptedExce
 }
 
 private Map<String, Object> makeWarnLevel(String warnlevel, Collection<Geometry> arealist) throws IOException {
-    System.out.println("处理合并" + warnlevel + arealist.size());
+
     HashMap<String, Object> ret = new HashMap<>();
     Geometry all = null;
     for (Iterator<Geometry> i = arealist.iterator(); i.hasNext(); ) {
@@ -495,7 +409,7 @@ private Map<String, Object> makeWarnLevel(String warnlevel, Collection<Geometry>
             polys.add((Polygon) mp.getGeometryN(i));
         }
     }
-    System.out.println(polys.size());
+
     MultiPolygon targetMP = new MultiPolygon(polys.toArray(new Polygon[0]), all.getFactory());
     StringWriter writer = new StringWriter();
     GeometryJSON g = new GeometryJSON();
@@ -612,7 +526,7 @@ private void initRainValue2() throws Exception {
         }
     }
     grbData.Dispose();
-    System.out.println(maxRain);
+
 
 }
 

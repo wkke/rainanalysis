@@ -1,5 +1,6 @@
 package com.wkken.rainanalysis;
 
+import cn.hutool.core.lang.Console;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.wkken.grib2tools.grib2file.GribSection1;
@@ -9,6 +10,7 @@ import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.geojson.geom.GeometryJSON;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 import org.opengis.feature.simple.SimpleFeature;
@@ -29,6 +31,8 @@ import java.util.*;
 
 public class GridUtils {
 private static final Logger log = Logger.getLogger(GridUtils.class);
+
+private List<SimpleFeature> geolist=new ArrayList<>();
 private Map<String, Object> StyleMap = ImmutableMap.<String, Object>builder()
 
         /* "color": "#CC0000",
@@ -82,7 +86,7 @@ private Map<String, Object> StyleMap = ImmutableMap.<String, Object>builder()
 private String stm = "";
 private String etm = "";
 private double maxRainFall = 0.0;
-private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
 private   Double[][] tabledata=new Double[170][229];
     public   Map<String, Object> analysis(File gribfile)
@@ -92,6 +96,7 @@ private   Double[][] tabledata=new Double[170][229];
         try {
             initRainValue(gribfile);
             ret.put("features", calcWarn());
+            log.error("文件处理完毕:"+gribfile.getName());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +123,7 @@ private   Double[][] tabledata=new Double[170][229];
         gribFile = new RandomAccessGribFile("testdata", gribfile.getAbsolutePath());
         gribFile.importFromStream(inputstream, 0);
         GribSection1 section1 = gribFile.getSection1();
-        ret = String.valueOf(section1.year) + "-" + String.format("%02d", section1.month) + "-" + String.format("%02d", section1.day) + " " + String.format("%02d", section1.hour) + ":" + String.format("%02d", section1.minute) + ":" + String.format("%02d", section1.second);
+        ret = String.valueOf(section1.year) + "-" + String.format("%02d", section1.month) + "-" + String.format("%02d", section1.day) + " " + String.format("%02d", section1.hour) + ":" + String.format("%02d", section1.minute) + ":" + String.format("%02d", section1.second)+".000";
 
         inputstream.close();
          return ret;
@@ -133,10 +138,10 @@ private   Double[][] tabledata=new Double[170][229];
         gribFile = new RandomAccessGribFile("testdata", gribfile.getAbsolutePath());
         gribFile.importFromStream(inputstream, 0);
         GribSection1 section1 = gribFile.getSection1();
-        stm = String.valueOf(section1.year) + "-" + String.format("%02d", section1.month) + "-" + String.format("%02d", section1.day) + " " + String.format("%02d", section1.hour) + ":" + String.format("%02d", section1.minute) + ":" + String.format("%02d", section1.second);
+        stm = String.valueOf(section1.year) + "-" + String.format("%02d", section1.month) + "-" + String.format("%02d", section1.day) + " " + String.format("%02d", section1.hour) + ":" + String.format("%02d", section1.minute) + ":" + String.format("%02d", section1.second)+".000";
         Date startDate = df.parse(stm);
         startDate = new Date(startDate.getTime() + 1000 * 60 * 60 * 72);
-        etm = df.format(startDate);
+        etm = df.format(startDate)+".000";
         inputstream.close();
         //解析并建立降雨数据网格
         AccessGRBData grbData = new AccessGRBData(gribfile.getAbsolutePath());
@@ -153,7 +158,7 @@ private   Double[][] tabledata=new Double[170][229];
 
         float maxRain=0;
 
-
+        tabledata= new Double[170][229];
 
         int dayindex=0;
         for (float[][] frame : gridvalues) {  //24个周期的数据
@@ -202,15 +207,22 @@ private List<Map<String, Object>> calcWarn() throws IOException, InterruptedExce
     maxRainFall=0.0;
     SimpleFeature feature;
 
-    SimpleFeatureCollection colls1 = ShpUtils.readShp(filepath);
-    SimpleFeatureIterator iters = colls1.features();
-    while(iters.hasNext()){
-        feature = iters.next();
 
-      if (sft==null)
-      {sft=feature.getType();
-          System.out.println(feature.getAttributes());
-      };
+    if(geolist.size()==0)
+    {
+        geolist=ShpUtils.getRegionList(filepath);
+    }
+  //  SimpleFeatureCollection colls1 = ShpUtils.readShp(filepath);
+  //  SimpleFeatureIterator iters = colls1.features();
+
+    for (SimpleFeature sf : geolist)
+    {
+        feature = sf;
+
+  //  while(iters.hasNext()){
+     //   feature = iters.next();
+
+
 
 
 
@@ -253,6 +265,7 @@ private List<Map<String, Object>> calcWarn() throws IOException, InterruptedExce
         }
 
     }
+//    iters.close();
 
 
 
@@ -316,26 +329,36 @@ private Map<String, Object> makeWarnLevel(String warnlevel, Collection<Geometry>
     }
     HashMap<String, Object> ret = new HashMap<>();
     Geometry all = null;
+    GeometryFactory gf = new GeometryFactory();
     for (Iterator<Geometry> i = arealist.iterator(); i.hasNext(); ) {
         Geometry geometry = i.next();
         if (geometry == null) continue;
         if (all == null) {
-            all = geometry;
+
+            if (geometry instanceof  Polygon){
+                Polygon[] polys = new Polygon[1];
+                polys[0] =(Polygon) geometry;
+                all = gf.createMultiPolygon(polys);
+            } else {
+                all = geometry;
+            }
         } else {
             all = all.union(geometry);
+
         }
+    }
+
+
+    if (all instanceof  Polygon){
+        Polygon[] polys = new Polygon[1];
+        polys[0] =(Polygon) all;
+        all = gf.createMultiPolygon(polys);
     }
     MultiPolygon mp = (MultiPolygon) all;
 
-
     List<Polygon> polys = new ArrayList<>();
 
-
-
-
     int p = mp.getNumGeometries();
-
-
     for (int i = 0; i < p; i++) {
         if (mp.getGeometryN(i).getArea() > 0.01) {
             polys.add((Polygon) mp.getGeometryN(i));
@@ -348,7 +371,7 @@ private Map<String, Object> makeWarnLevel(String warnlevel, Collection<Geometry>
     }
 
 
-    System.out.println(polys.size());
+
     MultiPolygon targetMP = new MultiPolygon(polys.toArray(new Polygon[0]), all.getFactory());
     StringWriter writer = new StringWriter();
     GeometryJSON g = new GeometryJSON();

@@ -2,8 +2,60 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a0819fdb-2463-4cbb-9c59-f62e09f125e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/rainanalysis.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rainanalysis.iws" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ServiceInstall.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ServiceRestart.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ServiceUninstall.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/WinSW.NET2.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/rainanalysis.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/rainanalysis.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sample-allOptions.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190731055804_P_RFFC_SPCC-ER03_201907310800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190731153628_P_RFFC_SPCC-ER03_201907312000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190801053559_P_RFFC_SPCC-ER03_201908010800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190801155016_P_RFFC_SPCC-ER03_201908012000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190802054358_P_RFFC_SPCC-ER03_201908020800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190802154637_P_RFFC_SPCC-ER03_201908022000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190803054147_P_RFFC_SPCC-ER03_201908030800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190803155754_P_RFFC_SPCC-ER03_201908032000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190804055506_P_RFFC_SPCC-ER03_201908040800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190804155344_P_RFFC_SPCC-ER03_201908042000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190805061108_P_RFFC_SPCC-ER03_201908050800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190805155224_P_RFFC_SPCC-ER03_201908052000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190806061812_P_RFFC_SPCC-ER03_201908060800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190806153237_P_RFFC_SPCC-ER03_201908062000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190807060457_P_RFFC_SPCC-ER03_201908070800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190807152053_P_RFFC_SPCC-ER03_201908072000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190808054210_P_RFFC_SPCC-ER03_201908080800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190808152345_P_RFFC_SPCC-ER03_201908082000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190809062001_P_RFFC_SPCC-ER03_201908090800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190809152531_P_RFFC_SPCC-ER03_201908092000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190810051720_P_RFFC_SPCC-ER03_201908100800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190810155502_P_RFFC_SPCC-ER03_201908102000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190811060647_P_RFFC_SPCC-ER03_201908110800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190811153035_P_RFFC_SPCC-ER03_201908112000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190812054209_P_RFFC_SPCC-ER03_201908120800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190812152304_P_RFFC_SPCC-ER03_201908122000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190813062759_P_RFFC_SPCC-ER03_201908130800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190813154629_P_RFFC_SPCC-ER03_201908132000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190814053319_P_RFFC_SPCC-ER03_201908140800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190814151924_P_RFFC_SPCC-ER03_201908142000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190815053547_P_RFFC_SPCC-ER03_201908150800_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190815154347_P_RFFC_SPCC-ER03_201908152000_07203.GRB2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testdata/spcc/Z_NWGD_C_BCCD_20190816053049_P_RFFC_SPCC-ER03_201908160800_07203.GRB2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rainanalysis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/rainanalysis.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rainanalysis.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/rainanalysis.ipr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rainanalysis.iws" beforeDir="false" afterPath="$PROJECT_DIR$/rainanalysis.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/DBConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/DBConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/GridUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/GridUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/InitConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/InitConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/ServiceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/ServiceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/ShpUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/ShpUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/WarnUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wkken/rainanalysis/WarnUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/start.bat" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/start.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testdata/spcc.rar" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,14 +86,22 @@
     </option>
   </component>
   <component name="ProjectId" id="1PgIpwwxrIujVo95yceHTqWo2BJ" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\IdeaProjects\rainanalysis\src\main\resources" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -55,7 +115,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Maven.rainanalysis [clean;,package,-DskipTest]">
     <configuration name="RainanalysisApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.wkken.rainanalysis.RainanalysisApplication" />
       <module name="rainanalysis" />
@@ -63,6 +123,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="rainanalysis [clean;,package,-DskipTest]" type="MavenRunConfiguration" factoryName="Maven" nameIsGenerated="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="package" />
+                <option value="-DskipTest" />
+              </list>
+            </option>
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.RainanalysisApplication" />
+      <item itemvalue="Maven.rainanalysis [clean;,package,-DskipTest]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.RainanalysisApplication" />
@@ -87,7 +178,21 @@
       <option name="project" value="LOCAL" />
       <updated>1566298650396</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="test">
+      <created>1566298728978</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1566298728978</updated>
+    </task>
+    <task id="LOCAL-00003" summary="test">
+      <created>1566298743660</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1566298743660</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -104,6 +209,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="test" />
     <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>

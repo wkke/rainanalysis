@@ -30,6 +30,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+      <!--  <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -83,11 +88,11 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
-        <dependency>
+     <!--   <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+            <scope>runtime</scope>
+        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
@@ -156,31 +161,52 @@
                     <excludes>
                         <exclude>*.properties</exclude>
                         <exclude>*.yml</exclude>
-                        <!-- <exclude>*.xml</exclude>-->
+                        <exclude>*.xml</exclude>
                         <exclude>config/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
 
+             <!--   <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <finalName>${project.artifactId}</finalName>
-                    <descriptors>
-                        <descriptor>src/main/assembly/package.xml</descriptor>
-                    </descriptors>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            </plugin>-->
+
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-assembly-plugin</artifactId>
+                 <configuration>
+                     <finalName>${project.artifactId}</finalName>
+                     <descriptors>
+                         <descriptor>src/main/assembly/package.xml</descriptor>
+                     </descriptors>
+                 </configuration>
+                 <executions>
+                     <execution>
+                         <id>make-assembly</id>
+                         <phase>package</phase>
+                         <goals>
+                             <goal>single</goal>
+                         </goals>
+                     </execution>
+                 </executions>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <configuration>
+                     <source>8</source>
+                     <target>8</target>
+                 </configuration>
+             </plugin>
         </plugins>
 
     </build>

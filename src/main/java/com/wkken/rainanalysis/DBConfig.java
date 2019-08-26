@@ -17,8 +17,9 @@ public class DBConfig {
 public boolean createDatabaseConnectionPool() {
     DruidPlugin druidPlugin = new DruidPlugin(jdbcUrl, dbUser, dbPwd);
     ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+    arp.setDevMode(false);
     arp.setDialect(new AnsiSqlDialect());
-    arp.setShowSql(debug);
+    arp.setShowSql(false);
     druidPlugin.start();
     return arp.start();
 }

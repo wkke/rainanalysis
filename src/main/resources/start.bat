@@ -3,7 +3,7 @@
 
 title %wintitle%
 
-@set JAVA_HOME=D:\dev\sdk\jdk1.8.0_40x64
+@set JAVA_HOME=D:\dev\sdk\jdk-8u211
 @set JRE_HOME=%JAVA_HOME%\jre
 @echo JAVA env: JRE_HOME=%JRE_HOME%
 @echo JAVA env: JAVA_HOME=%JAVA_HOME%
